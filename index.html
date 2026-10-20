@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>School Awards — Vote for Your Favorites</title>
+<meta name="description" content="Celebrate your school community. Vote for the School Awards.">
+<style>
+:root{--ink:#30243a;--muted:#786b80;--rose:#a84677;--plum:#694267;--line:#eadfe9}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(135deg,#fff8f4,#f8f2ff);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",sans-serif}
+header{text-align:center;padding:38px 18px 28px;background:radial-gradient(ellipse at top,#f2d9e8,transparent 68%)}
+.eyebrow{text-transform:uppercase;letter-spacing:.18em;font-size:.75rem;font-weight:800;color:var(--rose)}
+h1{font:clamp(2.2rem,6vw,3.8rem) Georgia,serif;margin:10px 0;color:#482b46}header p{max-width:620px;margin:auto;color:#6d6071;line-height:1.6}
+main{max-width:1100px;margin:auto;padding:20px 16px 50px}.topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:16px}
+button{font:inherit;font-weight:750;cursor:pointer;border:0;border-radius:12px;padding:11px 16px}.primary{background:var(--plum);color:white}.soft{background:#f0e7f0;color:#5b435f}.danger{background:#fff0f2;color:#9c3154}
+.notice{background:white;border:1px solid var(--line);border-radius:14px;padding:13px 15px;font-size:.9rem;color:#695b6d;line-height:1.5;margin-bottom:18px}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px}.tab{border:1px solid #e3d4e2;background:#fff;color:#604d64;border-radius:999px;padding:10px 14px}.tab.active{background:var(--plum);color:white;border-color:var(--plum)}
+.panel{background:#ffffffed;border:1px solid var(--line);border-radius:22px;padding:clamp(16px,3.5vw,28px);box-shadow:0 12px 35px #5734500b}
+.heading{display:flex;justify-content:space-between;gap:14px;align-items:flex-start;flex-wrap:wrap}h2{font:1.8rem Georgia,serif;margin:0 0 6px}.sub{margin:0 0 20px;color:var(--muted);line-height:1.5}.pill{background:#eee8f7;padding:7px 10px;border-radius:999px;font-size:.8rem;font-weight:750}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px}
+.person{border:1px solid var(--line);border-radius:16px;overflow:hidden;background:white;transition:.15s}.person:has(input:checked){border:2px solid var(--rose);background:#fff4f9;box-shadow:0 0 0 2px #a8467715}
+.person label{display:block;cursor:pointer}.photo{width:100%;aspect-ratio:4/3;object-fit:cover;display:block;background:linear-gradient(135deg,#f7dce9,#e8e0fb)}
+.placeholder{aspect-ratio:4/3;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;background:linear-gradient(135deg,#f7dce9,#e8e0fb);color:#79516f}.placeholder span{font-size:2.4rem}.placeholder small{font-weight:700}
+.person-foot{display:flex;align-items:center;gap:10px;padding:12px}.person input[type=radio]{accent-color:var(--rose);width:18px;height:18px;flex-shrink:0}.name{font-size:.9rem;font-weight:750;line-height:1.35}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}.status{min-height:1.4em;margin-top:12px;font-weight:700;color:#397453}
+.hostbox{margin-top:22px;border-top:1px solid var(--line);padding-top:20px}.hostbox h3{margin:0 0 6px}.host-tools{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.host-tools input{padding:11px;border:1px solid #d9cbd9;border-radius:10px;font:inherit;max-width:280px}
+.admin-panel{display:none;margin-top:16px;background:#fff8fb;border:1px solid #ead6e4;border-radius:16px;padding:16px}.admin-panel.open{display:block}.admin-row{display:grid;grid-template-columns:minmax(160px,1fr) minmax(190px,1.3fr);gap:12px;align-items:center;border-bottom:1px solid var(--line);padding:12px 0}.admin-row:last-child{border:0}.admin-name{font-weight:750;font-size:.9rem}.admin-row input[type=file]{max-width:100%;font-size:.82rem}.mini{font-size:.8rem;color:var(--muted);line-height:1.5}
+.results{margin-top:18px;border-top:1px solid var(--line);padding-top:16px}.results summary{font-weight:800;cursor:pointer}.result-row{display:grid;grid-template-columns:minmax(120px,1fr) 2fr 30px;gap:9px;align-items:center;margin:10px 0;font-size:.85rem}.track{height:9px;border-radius:99px;background:#eee5ef;overflow:hidden}.fill{height:100%;background:linear-gradient(90deg,#bf709b,#7964b3);border-radius:99px}
+footer{text-align:center;color:#8b7e8c;font-size:.8rem;padding:0 18px 25px}
+@media(max-width:520px){.admin-row{grid-template-columns:1fr}.result-row{grid-template-columns:1fr 1.2fr 24px}}
+</style>
+</head>
+<body>
+<header><div class="eyebrow">The School Awards</div><h1>Vote for Your Favorites</h1><p>Celebrate the people who make our school community memorable.</p></header>
+<main>
+ <div class="notice"><strong>A friendly reminder:</strong> Keep every vote respectful. Miss Beauty celebrates inner beauty, kindness, confidence, and the way someone makes others feel.</div>
+ <div class="topbar"><strong>School Awards · 25 nominees</strong><button class="soft" id="hostJump">⚙ Host / Admin</button></div>
+ <nav class="tabs" id="tabs" aria-label="Award categories"></nav>
+ <section class="panel">
+  <div class="heading"><div><h2 id="catTitle">Miss Beauty</h2><p class="sub" id="catDesc"></p></div><span class="pill" id="voteStatus">Loading…</span></div>
+  <form id="voteForm"><div class="grid" id="nominees"></div><div class="actions"><button class="primary" type="submit">Submit vote</button></div><div class="status" id="status" role="status" aria-live="polite"></div></form>
+  <div class="results"><details><summary>Live results</summary><p class="mini">Votes are public and do not require sign-in. This means people may vote more than once; totals are not verified identities.</p><div id="results"></div></details></div>
+  <section class="hostbox" id="hostSection">
+   <h3>Host controls</h3><p class="sub">Sign in with your host account to upload or replace nominee photos.</p>
+   <div class="host-tools"><input id="email" type="email" placeholder="Host email" autocomplete="username" aria-label="Host email"><input id="password" type="password" placeholder="Password" autocomplete="current-password" aria-label="Host password"><button class="primary" id="login" type="button">Host sign in</button><button class="soft" id="logout" type="button" style="display:none">Sign out</button></div>
+   <p class="mini">Create the host account in Supabase first. Never put a service-role key or database password in this website.</p>
+   <div class="admin-panel" id="adminPanel"><h3>Upload nominee photos</h3><p class="mini">Choose a JPG, PNG, or WebP image. Photos are stored online and visible to everyone.</p><div id="adminList"></div><p class="mini" id="adminStatus" role="status"></p><h3 style="margin-top:18px">Voting control</h3><p class="mini">You can pause or reopen voting here.</p><button type="button" class="soft" id="toggleVoting">Pause voting</button><button type="button" class="soft" id="refreshResults">Refresh results</button></div>
+  </section>
+ </section>
+</main><footer>Made for a fun, friendly school celebration ✦</footer>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="config.js"></script>
+<script>
+const people=["ĐỖ THỊ NGỌC MAI","NGUYỄN NGỌC DIỆP","PHẠM PHƯƠNG THU","ĐINH THỊ KIM SA","TRẦN PHƯƠNG ANH","NGUYỄN NGỌC CHÂM","LÝ HUYỀN TRANG","PHAN THỊ KHÁNH LINH","NGUYỄN NHƯ NGUYỆT","TRỊNH BẢO CHI","NGUYỄN NHƯ QUỲNH","NGUYỄN HIỀN NHUNG","TỐNG MAI CHI","HOÀNG KHÁNH AN","PHẠM KHÁNH NHI","HOÀNG NGỌC HIỆP","ĐỖ AN BÌNH","PHẠM THỊ THANH","TRẦN THỊ THANH HUYỀN","LÊ DUNG NHI","NGUYỄN THÙY DƯƠNG","BÙI THỊ TÚ ANH","ĐỖ THỊ DIỆU HƯƠNG","TRẦN BẢO NGỌC","NGUYỄN THỊ ANH THƯ"];
+const cats=[["Miss Beauty","Celebrate inner beauty: kindness, confidence, and a positive presence."],["Miss Connection","For someone who connects people and makes everyone feel included."],["Miss Friendship","For a loyal, thoughtful, and supportive friend."],["Miss Humour","For someone who brings laughter and good energy."],["School Princess","For someone who represents the spirit of your school community."]];
+const $=id=>document.getElementById(id);let db=null,current=0,nomineeRows=[],votesOpen=true,hostUser=null;
+function setStatus(msg,error=false){$("status").style.color=error?"#a23b61":"#397453";$("status").textContent=msg}
+function escapeText(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+async function init(){
+ if(!window.SUPABASE_CONFIG||!SUPABASE_CONFIG.url||!SUPABASE_CONFIG.anonKey||SUPABASE_CONFIG.url.includes("YOUR_PROJECT")){$("voteStatus").textContent="Setup required";setStatus("Website setup needed: add your Supabase URL and anon key to config.js.",true);renderTabs();return}
+ db=window.supabase.createClient(SUPABASE_CONFIG.url,SUPABASE_CONFIG.anonKey);
+ renderTabs();
+ try{
+  const {data:state}=await db.from("site_settings").select("voting_open").eq("id",1).maybeSingle();votesOpen=state?.voting_open!==false;
+  const {data,error}=await db.from("nominees").select("id,name,photo_path").order("sort_order");
+  if(error)throw error;nomineeRows=data||[];
+  const {data:{session}}=await db.auth.getSession();hostUser=session?.user||null;updateHostUI();renderNominees();await loadResults();updateVoteStatus();
+  db.auth.onAuthStateChange((_event,session)=>{hostUser=session?.user||null;updateHostUI()});
+ }catch(e){setStatus("Could not load website data. Check Supabase setup and SQL policies. "+(e.message||""),true);$("voteStatus").textContent="Connection error"}
+}
+function renderTabs(){$("tabs").innerHTML="";cats.forEach((c,i)=>{let b=document.createElement("button");b.className="tab"+(i===current?" active":"");b.type="button";b.textContent=c[0];b.onclick=()=>{current=i;renderTabs();renderNominees();updateVoteStatus();setStatus("")};$("tabs").appendChild(b)})}
+function photoUrl(path){if(!path)return "";return db.storage.from("nominee-photos").getPublicUrl(path).data.publicUrl}
+function renderNominees(){
+ $("catTitle").textContent=cats[current][0];$("catDesc").textContent=cats[current][1];$("nominees").innerHTML="";
+ nomineeRows.forEach((p,i)=>{const card=document.createElement("article");card.className="person";const label=document.createElement("label");label.htmlFor="n"+p.id;
+  if(p.photo_path){const img=document.createElement("img");img.className="photo";img.src=photoUrl(p.photo_path);img.alt="Photo of "+p.name;label.appendChild(img)}else{const ph=document.createElement("div");ph.className="placeholder";ph.innerHTML="<span>✧</span><small>Photo not added</small>";label.appendChild(ph)}
+  const foot=document.createElement("div");foot.className="person-foot";const radio=document.createElement("input");radio.type="radio";radio.name="nominee";radio.id="n"+p.id;radio.value=p.id;radio.disabled=!votesOpen;const name=document.createElement("span");name.className="name";name.textContent=p.name;foot.append(radio,name);card.append(label,foot);$("nominees").appendChild(card);
+ });
+ $("voteForm").querySelector("button[type=submit]").disabled=!votesOpen;
+}
+function updateVoteStatus(){$("voteStatus").textContent=votesOpen?"Voting open":"Voting paused";$("voteStatus").style.background=votesOpen?"#e8f4ea":"#fff0f2";$("voteStatus").style.color=votesOpen?"#27613a":"#9c3154"}
+$("voteForm").addEventListener("submit",async e=>{e.preventDefault();if(!db)return;if(!votesOpen){setStatus("Voting is currently paused.",true);return}const selected=document.querySelector('input[name="nominee"]:checked');if(!selected){setStatus("Please select a nominee first.",true);return}const p=nomineeRows.find(x=>String(x.id)===selected.value);setStatus("Submitting vote…");try{const {error}=await db.from("votes").insert({category:cats[current][0],nominee_id:p.id});if(error)throw error;setStatus("Thank you! Your vote has been counted.");document.querySelectorAll('input[name="nominee"]').forEach(x=>x.checked=false);await loadResults()}catch(err){setStatus("Vote could not be submitted: "+err.message,true)}});
+async function loadResults(){if(!db)return;const {data,error}=await db.from("public_vote_results").select("category,nominee_id,vote_count");if(error){$("results").textContent="Results are unavailable until database setup is complete.";return}const counts=data||[];$("results").innerHTML="";cats.forEach(c=>{const h=document.createElement("h3");h.style.fontSize="1rem";h.textContent=c[0];$("results").appendChild(h);const rows=nomineeRows.map(p=>({name:p.name,count:Number(counts.find(x=>x.category===c[0]&&String(x.nominee_id)===String(p.id))?.vote_count||0)})).sort((a,b)=>b.count-a.count);const max=Math.max(1,...rows.map(x=>x.count));rows.forEach(r=>{if(!r.count)return;const row=document.createElement("div");row.className="result-row";const n=document.createElement("span");n.textContent=r.name;const track=document.createElement("div");track.className="track";const fill=document.createElement("div");fill.className="fill";fill.style.width=(r.count/max*100)+"%";track.appendChild(fill);const count=document.createElement("strong");count.textContent=r.count;row.append(n,track,count);$("results").appendChild(row)});if(!rows.some(x=>x.count)){const p=document.createElement("p");p.className="mini";p.textContent="No votes yet."; $("results").appendChild(p)}})}
+function updateHostUI(){$("adminPanel").classList.toggle("open",!!hostUser);$("login").style.display=hostUser?"none":"inline-block";$("logout").style.display=hostUser?"inline-block":"none";$("email").style.display=hostUser?"none":"inline-block";$("password").style.display=hostUser?"none":"inline-block";if(hostUser)renderAdmin()}
+function renderAdmin(){$("adminList").innerHTML="";nomineeRows.forEach(p=>{const row=document.createElement("div");row.className="admin-row";const name=document.createElement("div");name.className="admin-name";name.textContent=p.name;const wrap=document.createElement("div");const input=document.createElement("input");input.type="file";input.accept="image/png,image/jpeg,image/webp";input.setAttribute("aria-label","Upload photo for "+p.name);input.onchange=async()=>{const f=input.files?.[0];if(!f)return;if(!["image/jpeg","image/png","image/webp"].includes(f.type)){ $("adminStatus").textContent="Choose a JPG, PNG, or WebP image.";return}if(f.size>5*1024*1024){$("adminStatus").textContent="Image must be under 5 MB.";return}const ext=f.type==="image/png"?"png":f.type==="image/webp"?"webp":"jpg";const path=p.id+"-"+Date.now()+"."+ext;$("adminStatus").textContent="Uploading…";const {error:uploadError}=await db.storage.from("nominee-photos").upload(path,f,{upsert:true,contentType:f.type});if(uploadError){$("adminStatus").textContent="Upload failed: "+uploadError.message;return}const {error:updateError}=await db.from("nominees").update({photo_path:path}).eq("id",p.id);if(updateError){$("adminStatus").textContent="Image uploaded but nominee update failed: "+updateError.message;return}p.photo_path=path;renderNominees();renderAdmin();$("adminStatus").textContent="Photo saved for "+p.name+" and visible to everyone."};wrap.appendChild(input);row.append(name,wrap);$("adminList").appendChild(row)})$("toggleVoting").textContent=votesOpen?"Pause voting":"Reopen voting"}
+$("login").onclick=async()=>{if(!db){$("adminStatus").textContent="Configure Supabase first.";return}const {data,error}=await db.auth.signInWithPassword({email:$("email").value,password:$("password").value});if(error){$("adminStatus").textContent="Sign-in failed: "+error.message;return}hostUser=data.user;updateHostUI();$("adminStatus").textContent="Signed in as host."};
+$("logout").onclick=async()=>{await db.auth.signOut();hostUser=null;updateHostUI()};
+$("toggleVoting").onclick=async()=>{if(!hostUser)return;const next=!votesOpen;const {error}=await db.from("site_settings").update({voting_open:next}).eq("id",1);if(error){$("adminStatus").textContent="Could not change voting status: "+error.message;return}votesOpen=next;renderNominees();updateVoteStatus();renderAdmin();$("adminStatus").textContent=next?"Voting reopened.":"Voting paused."};
+$("refreshResults").onclick=loadResults;$("hostJump").onclick=()=>$("hostSection").scrollIntoView({behavior:"smooth"});
+init();
+</script>
+</body></html>
